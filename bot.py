@@ -2,7 +2,7 @@ import settings
 import os
 import discord
 from discord.ext import commands
-from modules import xkcd
+from modules import xkcd, image
 
 TOKEN = os.getenv('DISCORD_BOT_API_TOKEN')
 bot = commands.Bot(command_prefix='$', description='Just A Rather Very Intelligent System, now on Discord!')
@@ -26,6 +26,19 @@ async def greet(ctx):
 async def get_xkcd(ctx):
     try:
         embed=xkcd.process()
+        await ctx.send(embed=embed)
+
+    except Exception as e:
+        print(e)
+        await ctx.send("Sorry, something went wrong.")
+
+@bot.command(
+    name='image',
+    description='Searches an image from google search engine',
+    brief='Search an image')
+async def search_image(ctx, search_arg):
+    try:
+        embed = await image.process(search_arg)
         await ctx.send(embed=embed)
 
     except Exception as e:
