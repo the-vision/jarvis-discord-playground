@@ -2,6 +2,7 @@ from random import randint
 import discord
 import requests
 
+
 def process():
     r = requests.get('http://xkcd.com/info.0.json')
     data = r.json()

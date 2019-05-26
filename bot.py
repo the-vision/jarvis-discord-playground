@@ -2,7 +2,7 @@ import settings
 import os
 import discord
 from discord.ext import commands
-from modules import xkcd, image
+from modules import xkcd, image, flip_a_coin
 
 TOKEN = os.getenv('DISCORD_BOT_API_TOKEN')
 bot = commands.Bot(command_prefix='$', description='Just A Rather Very Intelligent System, now on Discord!')
@@ -20,17 +20,19 @@ async def on_ready():
 async def greet(ctx):
     await ctx.send(":smiley: :wave: Hello, there!")
 
+
 @bot.command(name='xkcd',
-        description='Retrieves a random xkcd comic through external API call',
-        brief='Retrieves a random xkcd comic')
+             description='Retrieves a random xkcd comic through external API call',
+             brief='Retrieves a random xkcd comic') 
 async def get_xkcd(ctx):
     try:
-        embed=xkcd.process()
+        embed = xkcd.process()
         await ctx.send(embed=embed)
 
     except Exception as e:
         print(e)
         await ctx.send("Sorry, something went wrong.")
+
 
 @bot.command(
     name='image',
@@ -39,6 +41,19 @@ async def get_xkcd(ctx):
 async def search_image(ctx, search_arg):
     try:
         embed = await image.process(search_arg)
+        await ctx.send(embed=embed)
+
+    except Exception as e:
+        print(e)
+        await ctx.send("Sorry, something went wrong.")
+
+
+@bot.command(name='flip_a_coin',
+             description='Flip a coin game',
+             brief='flip a coin and send head to tails')
+async def flip_coin(ctx):
+    try:
+        embed = flip_a_coin.coinToss()
         await ctx.send(embed=embed)
 
     except Exception as e:
